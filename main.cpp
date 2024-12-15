@@ -1,208 +1,178 @@
-﻿#include <iostream>
+#include <iostream>
 using namespace std;
 
-// Оголошення функцій
+// оголошення функцій
+bool in_sort_numbers(double& A, double& B, double& C); // введеня з перевіркою чисел A, B, C
+void sortDescending(double& A, double& B, double& C); // сортування трьох чисел
+void out_sorted_numbers(double A, double B, double C); // виведення результату відсортованих чисел
+void task_SortDec3(); // задача 1
 
-bool inputNumbers(double& A, double& B, double& C); // // Функція для введення трьох чисел з перевіркою на коректність введення
-void sortDescending(double& A, double& B, double& C); // Функція для впорядкування трьох чисел за спаданням
-void outputSortedNumbers(double A, double B, double C); // Виводить на екран три числа в порядку спадання
-void SortDec3();
+bool in_A_B(int& A, int& B); // введення з перевіркою чисел A та B
+bool is_one_odd(int A, int B); // перевірка на непарність
+void out_res_bool(bool result); // виведення результату для булевого типу
+void task_Boolean10(); // задача 2
 
-bool inputTwoDigitNumber(int& number); // Функція для введення двозначного числа з перевіркою на коректність
-int rearrangeDigits(int number); // Функція для перестановки цифр двозначного числа, повертає нове число з переставленими цифрами
-void outputRearrangedNumber(int result);
-void Integer8();
+bool in_number(int& num); // введення з перевіркою двозначного числа
+int swap_digits(int num); // перестановка цифр числа
+void out_res_int(int result); // виведення результату для цілого числа
+void task_Int8(); // задача 3
 
-bool inputTwoIntegers(int& A, int& B);
-bool checkParity(int A, int B);
-void outputParityResult(bool result);
-void Boolean10();
-
-// Головна програма
+// основна функція
 int main() {
     int menu;
+    // Виведення меню
+    cout << "\nSelect a task:" << endl;
+    cout << "1. Sort three numbers in descending order." << endl;
+    cout << "2. Check if exactly one of A and B is odd." << endl;
+    cout << "3. Swap digits of a two-digit number." << endl;
+    cout << "4. Exit." << endl;
+    cout << "Enter your choice: ";
+    cin >> menu;
 
-    do {
-        cout << "Choose task:" << endl;
-        cout << "1. Sort two sets of numbers in descending order" << endl;
-        cout << "2. Permutation of the digits of a two-digit number" << endl;
-        cout << "3. Parity check (exactly one odd number)" << endl;
-        cout << "0. Exit" << endl;
-        cout << "Your choice: ";
-        cin >> menu;
-
-        switch (menu) {
-        case 1:
-            SortDec3();
-            break;
-        case 2:
-            Integer8();
-            break;
-        case 3:
-            Boolean10();
-            break;
-        case 0:
-            cout << "The program is complete." << endl;
-            break;
-        default:
-            cout << "Incorrect choice. Try again." << endl;
-        }
-
-        cout << endl;
-
-    } while (menu != 0);
-
-    return 0;
-}
-
-// Функція для введення трьох чисел і перевірки на коректність
-
-// Головна функція для виконання завдання 1
-void SortDec3() {
-    double A1, B1, C1, A2, B2, C2; // Змінні для двох наборів чисел
-
-    // Введення чисел для першого набору
-    if (!inputNumbers(A1, B1, C1)) {
-        cout << "Error: Invalid input. Please enter valid numbers." << endl;
-        return;
+    // Перевірка вибору
+    if (cin.fail() || menu < 1 || menu > 4) {
+        cout << "Invalid choice. Please try again." << endl;
+        return 0; // Якщо вибір некоректний, завершуємо програму
     }
 
-    // Введення чисел для другого набору
-    if (!inputNumbers(A2, B2, C2)) {
-        cout << "Error: Invalid input. Please enter valid numbers." << endl;
-        return;
+    switch (menu) {
+    case 1: 
+        task_SortDec3(); // виклик задачі 1
+        break;
+    case 2:
+        task_Boolean10(); // виклик задачі 2
+        break;
+    case 3:
+        task_Int8(); // виклик задачі 3
+        break;
+    case 4:
+        cout << "Exiting the program." << endl;
+        return 0; // вихід з програми
     }
-
-    // Впорядкування чисел для кожного набору по спаданню
-    sortDescending(A1, B1, C1);
-    sortDescending(A2, B2, C2);
-
-    // Виведення результату
-    cout << "Sorted numbers of the first set: ";
-    outputSortedNumbers(A1, B1, C1);
-    cout << "Sorted numbers of the second set: ";
-    outputSortedNumbers(A2, B2, C2);
 }
 
-bool inputNumbers(double& A, double& B, double& C) {
-    cout << "Task 1: Sort three numbers in descending order." << endl;
+void task_SortDec3() {
+    double A1, B1, C1, A2, B2, C2;
+
+    // Введення та перевірка даних для першого набору
+    if (in_sort_numbers(A1, B1, C1)) { // некоректні дані
+        cout << "A1, B1, C1 must be integers in the range [-100, 100]!" << endl;
+    }
+    else {
+        // Сортування та виведення результату для першого набору
+        sortDescending(A1, B1, C1);
+        out_sorted_numbers(A1, B1, C1);
+    }
+
+    // Введення та перевірка даних для другого набору
+    if (in_sort_numbers(A2, B2, C2)) { // некоректні дані
+        cout << "A2, B2, C2 must be integers in the range [-100, 100]!" << endl;
+    }
+    else {
+        // Сортування та виведення результату для другого набору
+        sortDescending(A2, B2, C2);
+        out_sorted_numbers(A2, B2, C2);
+    }
+}
+
+// Функція для введення трьох чисел з перевіркою
+bool in_sort_numbers(double& A, double& B, double& C) {
     cout << "Enter three numbers (A, B, C) in the range [-100, 100]: ";
     cin >> A >> B >> C;
 
-    if (cin.fail()) {
-        return false; // Помилка введення
-    }
-
-    // Перевірка діапазону чисел
+    // Перевірка на коректність введення
     if (A < -100 || A > 100 || B < -100 || B > 100 || C < -100 || C > 100) {
         cout << "Error: Numbers must be in the range [-100, 100]." << endl;
-        return false; // Помилка діапазону
+        return true; // некоректні дані
     }
-
-    return true; // Успішне введення
+    return false; // коректні дані
 }
 
-// Функція для впорядкування трьох чисел по спаданню
+// Функція для сортування чисел по спадаючій
 void sortDescending(double& A, double& B, double& C) {
     if (A < B) swap(A, B);
     if (A < C) swap(A, C);
     if (B < C) swap(B, C);
 }
 
-// Функція для виведення результату
-void outputSortedNumbers(double A, double B, double C) {
-    cout << "Sorted numbers: " << A << ", " << B << ", " << C << endl;
+// Функція для виведення відсортованих чисел
+void out_sorted_numbers(double A, double B, double C) {
+    cout << "Sorted numbers in descending order: " << A << " " << B << " " << C << endl;
 }
 
-// Функція для введення двозначного числа з перевіркою
+void task_Boolean10() {
+    int A, B; // декларація змінних
+    // введення даних
+    if (in_A_B(A, B)) // некоректні дані
+        cout << "A and B must be integers in the range [-100, 100]!" << endl;
+    else
+        // підрахунок і виведення результату
+        out_res_bool(is_one_odd(A, B));
+}
 
-// Головна функція для виконання завдання 2
-void Integer8() {
-    int number; // Змінна для зберігання числа
+// функція для введення та перевірки коректності введених чисел
+bool in_A_B(int& A, int& B) {
+    cout << "Enter two integers A and B (in the range [-100, 100]):" << endl;
+    cout << "A = ";
+    cin >> A;
+    cout << "B = ";
+    cin >> B;
 
-    // Введення числа і перевірка на коректність
-    if (!inputTwoDigitNumber(number)) {
-        cout << "Error: Invalid input. Please enter a valid two-digit number." << endl;
-        return;
+    // Перевірка на коректність введення
+    if (cin.fail() || A < -100 || A > 100 || B < -100 || B > 100) { // якщо число не в діапазоні або не ціле
+        return true;
     }
-
-    // Перестановка цифр і виведення результату
-    int result = rearrangeDigits(number);
-    outputRearrangedNumber(result);
+    return false;
 }
 
-bool inputTwoDigitNumber(int& number) {
-    cout << "Task 2: Rearrange the digits of a two-digit number." << endl;
-    cout << "Enter a two-digit number in the range [-100, 100]: ";
-    cin >> number;
+// функція перевірки, чи рівне одне з чисел непарне
+bool is_one_odd(int A, int B) {
+    return (A % 2 != 0 && B % 2 == 0) || (A % 2 == 0 && B % 2 != 0);
+}
 
-    if (cin.fail()) {
-        return false; // Помилка введення
+// функція виведення результату для булевого значення
+void out_res_bool(bool result) {
+    if (result)
+        cout << "The statement is true: exactly one of A and B is odd." << endl;
+    else
+        cout << "The statement is false: either both are odd or both are even." << endl;
+}
+
+// задача для перестановки цифр двозначного числа
+void task_Int8() {
+    int num; // декларація змінної для двозначного числа
+    // введення даних
+    if (in_number(num)) // некоректні дані
+        cout << "Please enter a valid two-digit number!" << endl;
+    else {
+        // підрахунок і виведення результату
+        int result = swap_digits(num);
+        out_res_int(result);
     }
+}
 
-    // Перевірка діапазону (двозначне число)
-    if (number < -100 || number > 100 || (number > -10 && number < 10)) {
-        cout << "Error: The number must be two-digit and in the range [-100, 100]." << endl;
-        return false; // Некоректне число
+// функція для введення двозначного числа з перевіркою коректності
+bool in_number(int& num) {
+    cout << "Enter a two-digit number: " << endl;
+    cin >> num;
+
+    // Перевірка на коректність введення двозначного числа
+    if (cin.fail() || (num > -10 && num < 10) || (num > 99 || num < -99)) {
+        return true; // некоректне введення
     }
-
-    return true; // Успішне введення
+    return false;
 }
 
-// Функція для перестановки цифр числа
-int rearrangeDigits(int number) {
-    int dozens = abs(number) / 10; // Десятки
-    int units = abs(number) % 10; // Одиниці
-    int newNumber = units * 10 + dozens;
-    return (number < 0) ? -newNumber : newNumber; // Зберегти знак
+// функція для перестановки цифр двозначного числа
+int swap_digits(int num) {
+    int tens = abs(num) / 10; // десятки
+    int ones = abs(num) % 10; // одиниці
+
+    // формуємо нове число після перестановки цифр
+    return ones * 10 + tens;
 }
 
-// Функція для виведення результату перестановки
-void outputRearrangedNumber(int result) {
-    cout << "The number with rearranged digits: " << result << endl;
-}
-
-// Функція для введення двох чисел із перевіркою на коректність
-
-// Головна функція для виконання завдання 3
-void Boolean10() {
-    int A, B; // Змінні для двох чисел
-
-    // Введення чисел і перевірка на коректність
-    if (!inputTwoIntegers(A, B)) {
-        cout << "Error: Invalid input. Please enter valid integers." << endl;
-        return;
-    }
-
-    // Перевірка на парність і виведення результату
-    bool result = checkParity(A, B);
-    outputParityResult(result);
-}
-
-bool inputTwoIntegers(int& A, int& B) {
-    cout << "Task 3: Check if exactly one number is odd." << endl;
-    cout << "Enter two integers in the range [-100, 100]: ";
-    cin >> A >> B;
-
-    if (cin.fail()) {
-        return false; // Помилка введення
-    }
-
-    // Перевірка діапазону
-    if (A < -100 || A > 100 || B < -100 || B > 100) {
-        cout << "Error: Numbers must be in the range [-100, 100]." << endl;
-        return false; // Некоректне число
-    }
-
-    return true; // Успішне введення
-}
-
-// Функція для перевірки, чи є одне непарне число
-bool checkParity(int A, int B) {
-    return (A % 2 != 0) ^ (B % 2 != 0); // Виключне АБО (одне непарне)
-}
-
-// Функція для виведення результату перевірки парності
-void outputParityResult(bool result) {
-    cout << "Exactly one number is odd: " << (result ? "Yes" : "No") << endl;
+// функція виведення результату для цілого числа
+void out_res_int(int result) {
+    cout << "The number after swapping the digits is: " << result << endl;
 }
