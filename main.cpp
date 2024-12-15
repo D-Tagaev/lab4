@@ -36,7 +36,7 @@ int main() {
     }
 
     switch (menu) {
-    case 1: 
+    case 1:
         task_SortDec3(); // виклик задачі 1
         break;
     case 2:
@@ -165,8 +165,8 @@ bool in_number(int& num) {
 
 // функція для перестановки цифр двозначного числа
 int swap_digits(int num) {
-    int tens = abs(num) / 10; // десятки
-    int ones = abs(num) % 10; // одиниці
+    int tens = num / 10; // десятки
+    int ones = num % 10; // одиниці
 
     // формуємо нове число після перестановки цифр
     return ones * 10 + tens;
